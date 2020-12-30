@@ -119,6 +119,32 @@ void ClientList::display()
 		}
 	}
 }
+/////////////////методы класса PaymentString///////////////////// 
+
+PaymentString::PaymentString(int an) : warehousenumber(an)
+{
+	fill(&monthpay[0], &monthpay[12], 0);
+}
+
+void PaymentString::setPay(int m, float am)
+{
+	monthpay[m] = am;
+}
+
+int PaymentString::getWareHouseNumber()
+{
+	return warehousenumber;
+}
+
+float PaymentString::getPaymentMonth(int month)
+{
+	return monthpay[month];
+}
+
+float PaymentString::getSumOfPayMonth()
+{
+	return accumulate(&monthpay[0], &monthpay[12], 0);
+}
 
 /////////////////методы класса PaymentList ///////////////// 
 
