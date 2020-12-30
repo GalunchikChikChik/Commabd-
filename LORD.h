@@ -1,0 +1,56 @@
+#include <iostream>
+#include <vector>
+#include <list>
+#include <string>
+#include <numeric>
+
+using namespace std;
+
+
+void getaLine(string& inStr);
+
+char getaChar();
+
+//////////////////// класс Client //////////////////
+class Client{};
+
+///////////////////класс ClientList ////////////////////////
+
+class ClientList{};
+
+////////////////класс ClientInputScreen////////////////////
+
+class ClientInputScreen{};
+
+//////////////////// класс PaymentString //////////////////////////
+
+class PaymentString{};
+
+//////////////////// class PaymentList ///////////////////////
+
+class PaymentList{};
+
+//////////////////// class PayInputScreen //////////////////
+
+class PayInputScreen{};
+
+///////////////////////класс Loss///////////////////////
+
+class Loss{};
+
+///////////////////класс LossList/////////////////////
+
+class LossList{};
+
+////////////////класс LossInputScreen///////////////////
+
+class LossInputScreen{};
+
+//////////////////класс YearReport///////////////////////
+
+class YearReport{};
+
+//////////////////Класс UserInterface//////////////////////
+
+class UserInterface{};
+
