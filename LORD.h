@@ -26,13 +26,36 @@ public:
 	string getName();
 };
 
-///////////////////класс ClientList ////////////////////////
+///////////////////класс ClientList //////////////////////// 
 
-class ClientList{};
+class ClientList
+{
+private:
 
-////////////////класс ClientInputScreen////////////////////
+	list <Client*> setPtrsClients;
+	list <Client*>::iterator iter;
+public:
+	~ClientList();
+	void insertClient(Client*);
+	int getWareHouseNumber(string);
+	void display();
+};
+////////////////класс ClientInputScreen//////////////////// 
 
-class ClientInputScreen{};
+class ClientInputScreen
+
+{
+private:
+	ClientList* ptrClientList;
+	string tName;
+	int warehousenumber;
+public:
+	ClientInputScreen(ClientList* ptrTL) : ptrClientList(ptrTL)
+	{
+
+	}
+	void setClient();
+};
 
 //////////////////// класс PaymentString //////////////////////////
 
