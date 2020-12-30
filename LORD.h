@@ -59,7 +59,22 @@ public:
 
 //////////////////// класс PaymentString //////////////////////////
 
-class PaymentString{};
+class PaymentString
+{
+private:
+
+	int warehousenumber;
+
+	float monthpay[12];
+public:
+	PaymentString(int);
+	void setPay(int, float);
+	float getSumOfPayMonth();
+
+	int getWareHouseNumber();
+
+	float getPaymentMonth(int);
+};
 
 //////////////////// class PaymentList ///////////////////////
 
