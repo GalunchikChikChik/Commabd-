@@ -57,7 +57,16 @@ void ClientInputScreen::setClient()
 	Client* ptrClient = new Client(tName, warehousenumber);
 	ptrClientList->insertClient(ptrClient);
 }
-
+void ClientInputScreen::setClient()
+{
+	cout « "Введите наименование клиента: " « endl;
+	getaLine(tName);
+	cout « "Введите номер склада: " « endl;
+	cin » warehousenumber;
+	cin.ignore(80, '\n');
+	Client* ptrClient = new Client(tName, warehousenumber);
+	ptrClientList->insertClient(ptrClient);
+}
 void ClientList::insertClient(Client* ptrT)
 {
 	bool exists = false;
@@ -76,5 +85,37 @@ void ClientList::insertClient(Client* ptrT)
 
 		delete ptrT;
 		cout « "\nСклад забронирован ";
+	}
+}
+int ClientList::getWareHouseNumber(string tName)
+{
+	int warehousenumber;
+	iter = setPtrsClients.begin();
+	while (iter != setPtrsClients.end())
+	{
+		warehousenumber = (*iter)->getWareHouse();
+		if (tName == ((*iter)->getName()))
+		{
+			return warehousenumber;
+		}
+		iter++;
+	}
+	return -1;
+}
+
+
+void ClientList::display()
+{
+	cout « "\n№Скл\tНаименование клиента\n-------------------\n";
+	if (setPtrsClients.empty())
+		cout « " Клиенты отсутствуют \n" « endl;
+	else
+	{
+		iter = setPtrsClients.begin();
+		while (iter != setPtrsClients.end())
+		{
+			cout «(*iter)->getWareHouse() « " || " «(*iter)->getName() « endl;
+			*iter++;
+		}
 	}
 }
