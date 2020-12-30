@@ -47,22 +47,16 @@ string Client::getName()
 }
 ///////////метод класса ClientInputScreen////////////////// 
 
-void ClientInputScreen::setClient()
+ClientList::~ClientList()
 {
-	cout « "Введите наименование клиента: " « endl;
-	getaLine(tName);
-	cout « "Введите номер склада: " « endl;
-	cin » warehousenumber;
-	cin.ignore(80, '\n');
-	Client* ptrClient = new Client(tName, warehousenumber);
-	ptrClientList->insertClient(ptrClient);
+
 }
 void ClientInputScreen::setClient()
 {
-	cout « "Введите наименование клиента: " « endl;
+	cout << "Введите наименование клиента: " << endl;
 	getaLine(tName);
-	cout « "Введите номер склада: " « endl;
-	cin » warehousenumber;
+	cout << "Введите номер склада: " << endl;
+	cin >> warehousenumber;
 	cin.ignore(80, '\n');
 	Client* ptrClient = new Client(tName, warehousenumber);
 	ptrClientList->insertClient(ptrClient);
@@ -84,7 +78,7 @@ void ClientList::insertClient(Client* ptrT)
 	{
 
 		delete ptrT;
-		cout « "\nСклад забронирован ";
+		cout << "\nСклад забронирован ";
 	}
 }
 int ClientList::getWareHouseNumber(string tName)
@@ -106,15 +100,15 @@ int ClientList::getWareHouseNumber(string tName)
 
 void ClientList::display()
 {
-	cout « "\n№Скл\tНаименование клиента\n-------------------\n";
+	cout << "\n№Скл\tНаименование клиента\n-------------------\n";
 	if (setPtrsClients.empty())
-		cout « " Клиенты отсутствуют \n" « endl;
+		cout << " Клиенты отсутствуют \n" << endl;
 	else
 	{
 		iter = setPtrsClients.begin();
 		while (iter != setPtrsClients.end())
 		{
-			cout «(*iter)->getWareHouse() « " || " «(*iter)->getName() « endl;
+			cout <<(*iter)->getWareHouse() << " || " <<(*iter)->getName() << endl;
 			*iter++;
 		}
 	}
@@ -179,28 +173,28 @@ void PaymentList::insertPay(int warehousenumber, int month, float amount)
 
 void PaymentList::display()
 {
-	cout « "\n№Скл\tЯнв Фев Мар Апр Май Июн Июл Авг Сен Окт Ноя Дек\n" « endl
-		« "------------------------------------------------------------------\n" « endl;
+	cout << "\n№Скл\tЯнв Фев Мар Апр Май Июн Июл Авг Сен Окт Ноя Дек\n" << endl
+		<< "------------------------------------------------------------------\n" << endl;
 	if (setPtrsRR.empty())
-		cout « " Доходы отсутствуют \n" « endl;
+		cout << " Доходы отсутствуют \n" << endl;
 	else
 	{
 		iter = setPtrsRR.begin();
 		while (iter != setPtrsRR.end())
 		{
-			cout «(*iter)->getWareHouseNumber() « '\t';
+			cout <<(*iter)->getWareHouseNumber() << '\t';
 			for (int j = 0; j < 12; j++)
 			{
 				if (((*iter)->getPaymentMonth(j)) == 0)
-					cout « " 0 ";
+					cout << " 0 ";
 				else
-					cout «(*iter)->getPaymentMonth(j) « " ";
+					cout <<(*iter)->getPaymentMonth(j) << " ";
 			}
-			cout « endl;
+			cout << endl;
 			iter++;
 		}
-		cout « endl;
-		cout « endl;
+		cout << endl;
+		cout << endl;
 	}
 }
 
@@ -223,18 +217,18 @@ float PaymentList::getSumOfGeneralPay()
 
 void PayInputScreen::setPay()
 {
-	cout « "Введите наименование клиента: ";
+	cout << "Введите наименование клиента: ";
 	getaLine(nameclient);
 
 	warehousenumber = ptrClientList->getWareHouseNumber(nameclient);
 	if (warehousenumber > 0)
 	{
 
-		cout « "Введите доход: " « endl;
-		cin » payment;
+		cout << "Введите доход: " << endl;
+		cin >> payment;
 		cin.ignore(80, '\n');
-		cout « "Введите номер месяца оплаты (1-12): " « endl;
-		cin » month;
+		cout << "Введите номер месяца оплаты (1-12): " << endl;
+		cin >> month;
 		cin.ignore(80, '\n');
 		month--;
 
@@ -242,9 +236,9 @@ void PayInputScreen::setPay()
 	}
 	else
 	{
-		cout « "\n —-------------------------";
-		cout « "\nКлиент отсутствует в списке\n ";
-		cout « " —-------------------------";
+		cout << "\n —-------------------------";
+		cout << "\nКлиент отсутствует в списке\n ";
+		cout << " —-------------------------";
 	}
 }
 
@@ -252,53 +246,52 @@ void PayInputScreen::setPay()
 
 LossList::~LossList()
 {
-
-	while (!vectPtrsExpenses.empty())
+	while (!vectPtrsLoss.empty())
 	{
-		iter = vectPtrsExpenses.begin();
+		iter = vectPtrsLoss.begin();
 		delete *iter;
-		vectPtrsExpenses.erase(iter);
+		vectPtrsLoss.erase(iter);
 	}
 }
 
 void LossList::insertLoss(Loss* ptrExp)
 {
 
-	vectPtrsExpenses.push_back(ptrExp);
+	vectPtrsLoss.push_back(ptrExp);
 }
 
 void LossList::display()
 {
-	cout « "\nДата\tПолучатель\tСумма\tКатегория\n"
-		« "----------------------------------------\n" « endl;
-	if (vectPtrsExpenses.size() == 0)
-		cout « " Расходы отсутствуют \n" « endl;
+	cout << "\nДата\tПолучатель\tСумма\tКатегория\n"
+		<< "----------------------------------------\n" << endl;
+	if (vectPtrsLoss.size() == 0)
+		cout << " Расходы отсутствуют \n" << endl;
 	else
 	{
-		iter = vectPtrsExpenses.begin();
-		while (iter != vectPtrsExpenses.end())
+		iter = vectPtrsLoss.begin();
+		while (iter != vectPtrsLoss.end())
 		{
-			cout «(*iter)->month « '/' «(*iter)->day « '\t' «(*iter)->payee « '\t' « '\t';
-			cout «(*iter)->amount « '\t' «(*iter)->category « endl;
+			cout <<(*iter)->month << '/' <<(*iter)->day << '\t' <<(*iter)->payee << '\t' << '\t';
+			cout <<(*iter)->amount << '\t' <<(*iter)->category << endl;
 			iter++;
 		}
-		cout « endl;
+		cout << endl;
 	}
 }
 
 float LossList::displaySummary()
 {
 	float totalLoss = 0;
-	if (vectPtrsExpenses.size() == 0)
+	if (vectPtrsLoss.size() == 0)
 	{
-		cout « "\tВсе категории\t0\n";
+		cout << "\tВсе категории\t0\n";
 		return 0;
 	}
-	iter = vectPtrsExpenses.begin();
-	while (iter != vectPtrsExpenses.end())
+	iter = vectPtrsLoss.begin();
+	while (iter != vectPtrsLoss.end())
 	{
 
-		cout « '\t' «((*iter)->category) « '\t' «((*iter)->amount) « endl;
+		cout << '\t' <<((*iter)->category) << '\t' <<((*iter)->amount) << endl;
 		totalLoss += (*iter)->amount;
 		iter++;
 	}
@@ -318,18 +311,18 @@ void LossInputScreen::setLoss()
 	int month, day;
 	string category, payee;
 	float amount;
-	cout « "Введите месяц (1-12): ";
-	cin » month;
+	cout << "Введите месяц (1-12): ";
+	cin >> month;
 	cin.ignore(80, '\n');
-	cout « "Введите день (1-31): ";
-	cin » day;
+	cout << "Введите день (1-31): ";
+	cin >> day;
 	cin.ignore(80, '\n');
-	cout « "Введите категорию расходов: ";
+	cout << "Введите категорию расходов: ";
 	getaLine(category);
-	cout « "Введите получателя: ";
+	cout << "Введите получателя: ";
 	getaLine(payee);
-	cout « "Введите сумму: ";
-	cin » amount;
+	cout << "Введите сумму: ";
+	cin >> amount;
 	cin.ignore(80, '\n');
 
 	Loss* ptrLoss = new Loss(month, day, category, payee, amount);
@@ -346,17 +339,17 @@ YearReport::YearReport(PaymentList* pRR, LossList* pER) : ptrRR(pRR), ptrER(pER)
 
 void YearReport::display()
 {
-	cout « "Годовой отчет\n--------------\n" « endl;
-	cout « "Доходы\n" « endl;
-	cout « "\tОбщая выручка:\t\t";
+	cout << "Годовой отчет\n--------------\n" << endl;
+	cout << "Доходы\n" << endl;
+	cout << "\tОбщая выручка:\t\t";
 	payments = ptrRR->getSumOfGeneralPay();
-	cout « payments « endl;
-	cout « "Расходы\n" « endl;
+	cout << payments << endl;
+	cout << "Расходы\n" << endl;
 	loss = ptrER->displaySummary();
-	cout « "Общие расходы:\t\t";
-	cout « loss « endl;
+	cout << "Общие расходы:\t\t";
+	cout << loss << endl;
 
-	cout « "\nПрибыль:\t\t\t" «(payments - loss) « endl;
+	cout << "\nПрибыль:\t\t\t" <<(payments - loss) << endl;
 }
 
 ////////////////методы класса UserInterface//////////////
@@ -379,21 +372,19 @@ void UserInterface::interact()
 {
 	while (true)
 	{
-		cout « " \n —-------МЕНЮ-----------\n"
-			« " Ввод данных 'i', \n"
-			« " Отчеты 'd', \n"
-			« " Выход 'q': \n"
-			« " —----------------------\n";
+		cout << " \n —-------МЕНЮ-----------\n"
+			<< " Ввод данных 'i', \n"
+			<< " Отчеты 'd', \n"
+			<< " Выход 'q': \n"
+			<< " —----------------------\n";
 		ch = getaChar();
 		if (ch == 'i')
 		{
-			cout « " —----------------------\n"
-				« " Добавление клиента 't', \n"
-				« " Добавление статьи дохода'r', \n"
-				« " Добавление статьи расхода 'e': \n"
-				« "
-
-				------------------------ - ";
+			cout << " —----------------------\n"
+				<< " Добавление клиента 't', \n"
+				<< " Добавление статьи дохода'r', \n"
+				<< " Добавление статьи расхода 'e': \n"
+				<< "------------------------ - ";
 				ch = getaChar();
 			switch (ch)
 			{
@@ -415,21 +406,21 @@ void UserInterface::interact()
 				delete ptrLossInputScreen;
 				break;
 			default:
-				cout « " \n-----------------ОШИБКА----------------------";
-				cout « " Выберите необходимую функцию из меню \n";
-				cout « " —-------------------------------------------";
+				cout << " \n-----------------ОШИБКА----------------------";
+				cout << " Выберите необходимую функцию из меню \n";
+				cout << " —-------------------------------------------";
 
 				break;
 			}
 		}
 		else if (ch == 'd')
 		{
-			cout « " \n------------------------\n"
-				« " Список клиентов 't' \n"
-				« " Список доходов 'r' \n"
-				« " Список расходов 'e' \n"
-				« " Годовой отчет 'a' \n"
-				« " —-----------------";
+			cout << " \n------------------------\n"
+				<< " Список клиентов 't' \n"
+				<< " Список доходов 'r' \n"
+				<< " Список расходов 'e' \n"
+				<< " Годовой отчет 'a' \n"
+				<< " —-----------------";
 			ch = getaChar();
 			switch (ch)
 			{
@@ -446,9 +437,9 @@ void UserInterface::interact()
 				break;
 			default:
 
-				cout « " \n-----------------ОШИБКА----------------------";
-				cout « " Выберите необходимую функцию вывода \n";
-				cout « " —-------------------------------------------";
+				cout << " \n-----------------ОШИБКА----------------------";
+				cout << " Выберите необходимую функцию вывода \n";
+				cout << " —-------------------------------------------";
 
 				break;
 			}
@@ -456,6 +447,6 @@ void UserInterface::interact()
 		else if (ch == 'q')
 			return;
 		else
-			cout « " —-----------------";
+			cout << " —-----------------";
 	}
 }
