@@ -131,7 +131,7 @@ public:
 
 class LossList{
 private:
-	vector<Loss*> vectPtrsExpenses;
+	vector<Loss*> vectPtrsLoss;
 	vector<Loss*>::iterator iter;
 public:
 	~LossList();
