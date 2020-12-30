@@ -17,6 +17,24 @@ char getaChar()
 	return ch;
 }
 
+void getaLine(string& inStr)
+{
+	char temp[21];
+	cin.get(temp, 20, '\n');
+	cin.ignore(20, '\n');
+	inStr = temp;
+}
+
+////////////////методы класса Client/////////////////////// 
+Client::Client(string n, int warehs) : name(n), warehouse(warehs)
+{
+
+}
+
+Client::~Client()
+{
+
+}
 ///////////метод класса ClientInputScreen////////////////// 
 
 void ClientInputScreen::setClient()
