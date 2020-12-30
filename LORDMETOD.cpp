@@ -247,3 +247,215 @@ void PayInputScreen::setPay()
 		cout « " —-------------------------";
 	}
 }
+
+//////////////////методы класса LossList//////////////
+
+LossList::~LossList()
+{
+
+	while (!vectPtrsExpenses.empty())
+	{
+		iter = vectPtrsExpenses.begin();
+		delete *iter;
+		vectPtrsExpenses.erase(iter);
+	}
+}
+
+void LossList::insertLoss(Loss* ptrExp)
+{
+
+	vectPtrsExpenses.push_back(ptrExp);
+}
+
+void LossList::display()
+{
+	cout « "\nДата\tПолучатель\tСумма\tКатегория\n"
+		« "----------------------------------------\n" « endl;
+	if (vectPtrsExpenses.size() == 0)
+		cout « " Расходы отсутствуют \n" « endl;
+	else
+	{
+		iter = vectPtrsExpenses.begin();
+		while (iter != vectPtrsExpenses.end())
+		{
+			cout «(*iter)->month « '/' «(*iter)->day « '\t' «(*iter)->payee « '\t' « '\t';
+			cout «(*iter)->amount « '\t' «(*iter)->category « endl;
+			iter++;
+		}
+		cout « endl;
+	}
+}
+
+float LossList::displaySummary()
+{
+	float totalLoss = 0;
+	if (vectPtrsExpenses.size() == 0)
+	{
+		cout « "\tВсе категории\t0\n";
+		return 0;
+	}
+	iter = vectPtrsExpenses.begin();
+	while (iter != vectPtrsExpenses.end())
+	{
+
+		cout « '\t' «((*iter)->category) « '\t' «((*iter)->amount) « endl;
+		totalLoss += (*iter)->amount;
+		iter++;
+	}
+	return totalLoss;
+}
+
+//////////////методы класса LossInputScreen/////////////
+
+
+LossInputScreen::LossInputScreen(LossList* per) : ptrLossList(per)
+{
+
+}
+
+void LossInputScreen::setLoss()
+{
+	int month, day;
+	string category, payee;
+	float amount;
+	cout « "Введите месяц (1-12): ";
+	cin » month;
+	cin.ignore(80, '\n');
+	cout « "Введите день (1-31): ";
+	cin » day;
+	cin.ignore(80, '\n');
+	cout « "Введите категорию расходов: ";
+	getaLine(category);
+	cout « "Введите получателя: ";
+	getaLine(payee);
+	cout « "Введите сумму: ";
+	cin » amount;
+	cin.ignore(80, '\n');
+
+	Loss* ptrLoss = new Loss(month, day, category, payee, amount);
+
+	ptrLossList->insertLoss(ptrLoss);
+}
+
+////////////////методы класса YearReport/////////////////
+
+YearReport::YearReport(PaymentList* pRR, LossList* pER) : ptrRR(pRR), ptrER(pER)
+{
+
+}
+
+void YearReport::display()
+{
+	cout « "Годовой отчет\n--------------\n" « endl;
+	cout « "Доходы\n" « endl;
+	cout « "\tОбщая выручка:\t\t";
+	payments = ptrRR->getSumOfGeneralPay();
+	cout « payments « endl;
+	cout « "Расходы\n" « endl;
+	loss = ptrER->displaySummary();
+	cout « "Общие расходы:\t\t";
+	cout « loss « endl;
+
+	cout « "\nПрибыль:\t\t\t" «(payments - loss) « endl;
+}
+
+////////////////методы класса UserInterface//////////////
+
+UserInterface::UserInterface()
+{
+	ptrClientList = new ClientList;
+	ptrPaymentList = new PaymentList;
+	ptrLossList = new LossList;
+}
+
+UserInterface::~UserInterface()
+{
+	delete ptrClientList;
+	delete ptrPaymentList;
+	delete ptrLossList;
+}
+
+void UserInterface::interact()
+{
+	while (true)
+	{
+		cout « " \n —-------МЕНЮ-----------\n"
+			« " Ввод данных 'i', \n"
+			« " Отчеты 'd', \n"
+			« " Выход 'q': \n"
+			« " —----------------------\n";
+		ch = getaChar();
+		if (ch == 'i')
+		{
+			cout « " —----------------------\n"
+				« " Добавление клиента 't', \n"
+				« " Добавление статьи дохода'r', \n"
+				« " Добавление статьи расхода 'e': \n"
+				« "
+
+				------------------------ - ";
+				ch = getaChar();
+			switch (ch)
+			{
+
+			case 't': ptrClientInputScreen =
+				new ClientInputScreen(ptrClientList);
+				ptrClientInputScreen->setClient();
+				delete ptrClientInputScreen;
+				break;
+
+			case 'r': ptrPayInputScreen =
+				new PayInputScreen(ptrClientList, ptrPaymentList);
+				ptrPayInputScreen->setPay();
+				delete ptrPayInputScreen;
+				break;
+			case 'e': ptrLossInputScreen =
+				new LossInputScreen(ptrLossList);
+				ptrLossInputScreen->setLoss();
+				delete ptrLossInputScreen;
+				break;
+			default:
+				cout « " \n-----------------ОШИБКА----------------------";
+				cout « " Выберите необходимую функцию из меню \n";
+				cout « " —-------------------------------------------";
+
+				break;
+			}
+		}
+		else if (ch == 'd')
+		{
+			cout « " \n------------------------\n"
+				« " Список клиентов 't' \n"
+				« " Список доходов 'r' \n"
+				« " Список расходов 'e' \n"
+				« " Годовой отчет 'a' \n"
+				« " —-----------------";
+			ch = getaChar();
+			switch (ch)
+			{
+			case 't': ptrClientList->display();
+				break;
+			case 'r': ptrPaymentList->display();
+				break;
+			case 'e': ptrLossList->display();
+				break;
+			case 'a':
+				ptrYearReport = new YearReport(ptrPaymentList, ptrLossList);
+				ptrYearReport->display();
+				delete ptrYearReport;
+				break;
+			default:
+
+				cout « " \n-----------------ОШИБКА----------------------";
+				cout « " Выберите необходимую функцию вывода \n";
+				cout « " —-------------------------------------------";
+
+				break;
+			}
+		}
+		else if (ch == 'q')
+			return;
+		else
+			cout « " —-----------------";
+	}
+}

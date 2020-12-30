@@ -112,21 +112,72 @@ public:
 
 ///////////////////////класс Loss///////////////////////
 
-class Loss{};
+class Loss{
+public:
+	int month, day;
+	string category;
+	string payee;
+	float amount;
+	Loss()
+	{ }
+	Loss(int m, int d, string c, string p, float a) :
+		month(m), day(d), category(c), payee(p), amount(a)
+	{
+
+	}
+};
 
 ///////////////////класс LossList/////////////////////
 
-class LossList{};
+class LossList{
+private:
+	vector<Loss*> vectPtrsExpenses;
+	vector<Loss*>::iterator iter;
+public:
+	~LossList();
+	void insertLoss(Loss*);
+	void display();
+	float displaySummary();
+};
 
 ////////////////класс LossInputScreen///////////////////
 
-class LossInputScreen{};
+class LossInputScreen{
+private:
+	LossList* ptrLossList;
+public:
+	LossInputScreen(LossList*);
+	void setLoss();
+};
 
 //////////////////класс YearReport///////////////////////
 
-class YearReport{};
+class YearReport{
+private:
+	PaymentList* ptrRR;
+	LossList* ptrER;
+	float loss, payments;
+public:
+	YearReport(PaymentList*, LossList*);
+	void display();
+};
 
 //////////////////Класс UserInterface//////////////////////
 
-class UserInterface{};
+class UserInterface{
+private:
+	ClientList* ptrClientList;
+	ClientInputScreen* ptrClientInputScreen;
+	PaymentList* ptrPaymentList;
+	PayInputScreen* ptrPayInputScreen;
+	LossList* ptrLossList;
+	LossInputScreen* ptrLossInputScreen;
+	YearReport* ptrYearReport;
+	char ch;
+public:
+
+	UserInterface();
+	~UserInterface();
+	void interact();
+};
 
