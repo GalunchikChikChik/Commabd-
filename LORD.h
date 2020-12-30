@@ -12,7 +12,19 @@ void getaLine(string& inStr);
 char getaChar();
 
 //////////////////// класс Client //////////////////
-class Client{};
+class Client
+{
+private:
+	string name;
+	int warehouse;
+
+
+public:
+	Client(string n, int warehs);
+	~Client();
+	int getWareHouse();
+	string getName();
+};
 
 ///////////////////класс ClientList ////////////////////////
 
