@@ -119,3 +119,105 @@ void ClientList::display()
 		}
 	}
 }
+
+/////////////////методы класса PaymentList ///////////////// 
+
+PaymentList::~PaymentList()
+{
+	while (!setPtrsRR.empty())
+	{
+		iter = setPtrsRR.begin();
+		delete* iter;
+		setPtrsRR.erase(iter);
+	}
+}
+
+void PaymentList::insertPay(int warehousenumber, int month, float amount)
+{
+
+	iter = setPtrsRR.begin();
+	while (iter != setPtrsRR.end())
+	{
+		if (warehousenumber == (*iter)->getWareHouseNumber())
+		{
+			(*iter)->setPay(month, amount);
+			return;
+		}
+		else
+			iter++;
+	}
+	PaymentString* ptrRow = new PaymentString(warehousenumber);
+	ptrRow->setPay(month, amount);
+	setPtrsRR.push_back(ptrRow);
+}
+
+void PaymentList::display()
+{
+	cout « "\n№Скл\tЯнв Фев Мар Апр Май Июн Июл Авг Сен Окт Ноя Дек\n" « endl
+		« "------------------------------------------------------------------\n" « endl;
+	if (setPtrsRR.empty())
+		cout « " Доходы отсутствуют \n" « endl;
+	else
+	{
+		iter = setPtrsRR.begin();
+		while (iter != setPtrsRR.end())
+		{
+			cout «(*iter)->getWareHouseNumber() « '\t';
+			for (int j = 0; j < 12; j++)
+			{
+				if (((*iter)->getPaymentMonth(j)) == 0)
+					cout « " 0 ";
+				else
+					cout «(*iter)->getPaymentMonth(j) « " ";
+			}
+			cout « endl;
+			iter++;
+		}
+		cout « endl;
+		cout « endl;
+	}
+}
+
+float PaymentList::getSumOfGeneralPay()
+{
+	float
+
+		sumRents = 0.0;
+	iter = setPtrsRR.begin();
+
+	while (iter != setPtrsRR.end())
+	{
+		sumRents += (*iter)->getSumOfPayMonth();
+		iter++;
+	}
+	return sumRents;
+}
+
+/////////////////методы класса PayInputScreen///////////// 
+
+void PayInputScreen::setPay()
+{
+	cout « "Введите наименование клиента: ";
+	getaLine(nameclient);
+
+	warehousenumber = ptrClientList->getWareHouseNumber(nameclient);
+	if (warehousenumber > 0)
+	{
+
+		cout « "Введите доход: " « endl;
+		cin » payment;
+		cin.ignore(80, '\n');
+		cout « "Введите номер месяца оплаты (1-12): " « endl;
+		cin » month;
+		cin.ignore(80, '\n');
+		month--;
+
+		ptrPaymentList->insertPay(warehousenumber, month, payment);
+	}
+	else
+	{
+		cout « "\n —-------------------------";
+		cout « "\nКлиент отсутствует в списке\n ";
+		cout « " —-------------------------";
+	}
+}

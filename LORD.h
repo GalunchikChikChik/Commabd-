@@ -76,13 +76,39 @@ public:
 	float getPaymentMonth(int);
 };
 
-//////////////////// class PaymentList ///////////////////////
+//////////////////// class PaymentList /////////////////////// 
 
-class PaymentList{};
+class PaymentList
+{
+private:
+	list <PaymentString*> setPtrsRR;
+	list <PaymentString*>::iterator iter;
+public:
+	~PaymentList();
+	void insertPay(int, int, float);
+	void display();
+	float getSumOfGeneralPay();
+};
+//////////////////// class PayInputScreen ////////////////// 
 
-//////////////////// class PayInputScreen //////////////////
+class PayInputScreen
+{
+private:
+	ClientList* ptrClientList;
+	PaymentList* ptrPaymentList;
+	string nameclient;
+	float payment;
+	int month;
+	int warehousenumber;
 
-class PayInputScreen{};
+public:
+	PayInputScreen(ClientList* ptrTL, PaymentList* ptrRR) : ptrClientList(ptrTL),
+		ptrPaymentList(ptrRR)
+	{
+
+	}
+	void setPay();
+};
 
 ///////////////////////класс Loss///////////////////////
 
