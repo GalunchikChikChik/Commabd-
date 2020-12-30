@@ -35,6 +35,16 @@ Client::~Client()
 {
 
 }
+
+int Client::getWareHouse()
+{
+	return warehouse;
+}
+
+string Client::getName()
+{
+	return name;
+}
 ///////////метод класса ClientInputScreen////////////////// 
 
 void ClientInputScreen::setClient()
